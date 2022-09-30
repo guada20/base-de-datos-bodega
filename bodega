@@ -1,0 +1,52 @@
+--hay que tener una base de datos donde almacenar informacion
+Create Database Bodega
+--indicar que base de datos usar
+use Bodega
+--crear la tabla producto
+Create Table Producto(
+Id_Producto int primary key,
+Descripcion varchar(40) Not Null,
+Categoria varchar(30) Not Null,
+Existencias Int Not Null,
+Precio_Compra int Not Null,
+Precio_Venta int Not Null,
+Ganancia as Precio_Venta-Precio_Compra, --aqui estamos asignando un valor para ganancia
+check (Precio_Venta > Precio_Compra))
+--comprovando que el valor que se envia en precio venta debe ser mayor al valor de precio compra
+Create Table Pedido(
+Id_Pedido int primary key,
+Id_Producto int Foreign key references Producto(Id_Producto),
+Cantidad int Not Null)
+
+--agregar registros a la tabla de productos--
+Insert Into Producto Values(001,'papitas naturales','Mekato',5,1200,1800 )
+Insert Into Producto Values(002,'Bandeja fresas','Frutas',10,3500,5000)
+Insert Into Producto Values(003,'Cocacola 1,5l','Bebidas',8,4000,5500)
+Insert Into Producto Values(004,'Jamon colanta','Embutidos',13,9000,13000)
+Insert Into Producto Values(005,'Leche entera', 'lacteos', 7,2000,3500)
+Insert Into Producto Values(006,'pechuga pollo', 'Aves', 5,8000,12000)
+--values son los daros que vamos a enciar a esa tabla
+--datos deben de cumplir una reglas:
+--1. la misma cantidad de columnas debe ser la misma cantidad de valores
+--el  mismo tipo de datos debe ser acorde ala creacion de la tabla
+
+
+--como consultamos lso registros de la tabla producto
+Select * From Producto
+--consultar solo un campo
+Select Descripcion From Producto
+--consultar productos de la categoria mekato
+Select * From Producto where Categoria='mekato'
+--actualizar de la tabla productos, la coca cola que el precio de compra
+--va a cambiar por 4500
+Update Producto Set Precio_Compra=4500 Where Id_Producto=003
+--todos los productos se incremento en precio de venta un 10%
+Update Producto Set Precio_Venta=Precio_venta *(10/100) + Precio_Venta
+--para eliminar usamos delete
+Delete From Producto Where Id_Producto=006
+--agregar datos a una tabla que  tiene un campo como clave foranea 
+Insert Into Pedido Values(3021,3,2)
+Insert Into Pedido Values(3022,4,8)
+Insert Into Pedido Values(3023,2,5)
+Insert Into Pedido Values(3024,1,8)
+Select*From Pedido
